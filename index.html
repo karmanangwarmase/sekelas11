@@ -1,194 +1,438 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sejarah Hindu-Buddha di Indonesia</title>
     <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --background-color: #f4f4f9;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #dddddd;
+            --hover-color: #f1c40f;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
             padding: 1rem;
-            background-color: #f4f4f9;
-            color: #333;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        main {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         h1, h2 {
-            color: #2c3e50;
+            color: var(--secondary-color);
+            margin-top: 0;
         }
 
         h1 {
-            font-size: 2rem;
-            margin-top: 2rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
         }
 
         h2 {
-            font-size: 1.5rem;
-            margin-top: 1.5rem;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary-color);
         }
 
         p {
             margin-bottom: 1rem;
+            margin-top: 0;
+        }
+
+        .card {
+            background: var(--card-color);
+            padding: 1.2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Table Styles */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 1rem 0;
+            border-radius: 8px;
+            background: linear-gradient(to right, white, white),
+                        linear-gradient(to right, white, white),
+                        linear-gradient(to right, rgba(0,0,0,0.1), rgba(0,0,0,0)),
+                        linear-gradient(to left, rgba(0,0,0,0.1), rgba(0,0,0,0));
+            background-position: left center, right center, left center, right center;
+            background-repeat: no-repeat;
+            background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
+            background-attachment: local, local, scroll, scroll;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1rem;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
+            margin: 0;
+            font-size: 0.95rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         }
 
         table, th, td {
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
         }
 
         th, td {
-            padding: 0.75rem;
+            padding: 0.8rem;
             text-align: left;
+            vertical-align: top;
         }
 
         th {
-            background-color: #3498db;
-            color: #fff;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
         }
 
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: rgba(0, 0, 0, 0.02);
         }
 
         tr:hover {
-            background-color: #f1c40f;
-            color: #fff;
+            background-color: var(--hover-color);
+            color: var(--secondary-color);
             transition: background-color 0.3s ease;
         }
 
-        @media (max-width: 600px) {
+        /* Arrow indicators for scrollable tables */
+        .table-container::before,
+        .table-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .table-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .table-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .table-container.scroll-start::after,
+        .table-container.scroll-middle::before,
+        .table-container.scroll-middle::after,
+        .table-container.scroll-end::before {
+            opacity: 1;
+        }
+
+        /* Improved mobile styles */
+        @media (max-width: 768px) {
             body {
+                font-size: 15px;
+            }
+            
+            header {
+                padding: 0.8rem;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+            
+            th, td {
+                padding: 0.6rem;
+                min-width: 120px;
+            }
+            
+            main {
+                padding: 0.8rem;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 14px;
+            }
+            
+            th, td {
                 padding: 0.5rem;
+                font-size: 0.9rem;
             }
-
-            table, thead, tbody, th, td, tr {
+            
+            /* Stacked table layout for very small screens */
+            .stacked-table {
+                width: 100%;
+            }
+            
+            .stacked-table thead {
+                display: none;
+            }
+            
+            .stacked-table tr {
                 display: block;
+                margin-bottom: 1rem;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                overflow: hidden;
             }
-
-            th {
-                background-color: #3498db;
-            }
-
-            td {
+            
+            .stacked-table td {
+                display: flex;
                 border: none;
-                border-bottom: 1px solid #ddd;
+                border-bottom: 1px solid var(--border-color);
+                padding: 0.8rem;
                 position: relative;
-                padding-left: 50%;
+                padding-left: 40%;
             }
-
-            td::before {
+            
+            .stacked-table td:last-child {
+                border-bottom: none;
+            }
+            
+            .stacked-table td::before {
+                content: attr(data-label);
                 position: absolute;
-                top: 0;
-                left: 0;
-                width: 45%;
-                padding-left: 0.5rem;
+                left: 0.8rem;
+                top: 0.8rem;
+                width: 35%;
                 font-weight: bold;
-                white-space: nowrap;
+                color: var(--secondary-color);
             }
-
-            td:nth-of-type(1)::before { content: "Teori"; }
-            td:nth-of-type(2)::before { content: "Pelaku Utama"; }
-            td:nth-of-type(3)::before { content: "Cara Penyebaran"; }
-            td:nth-of-type(4)::before { content: "Ciri Khas"; }
+            
+            .stacked-table tr:hover {
+                background-color: inherit;
+            }
+            
+            .stacked-table td:hover {
+                background-color: var(--hover-color);
+                color: var(--secondary-color);
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Masuknya Agama dan Kebudayaan Hindu-Buddha ke Indonesia</h1>
-    <p>Agama dan kebudayaan Hindu-Buddha masuk ke Indonesia secara bertahap melalui interaksi antara masyarakat Nusantara dan bangsa India sejak awal abad Masehi. Proses ini berlangsung secara damai melalui jalur perdagangan, perkawinan, pendidikan, dan budaya. Terdapat empat teori utama yang menjelaskan proses ini:</p>
-    
-    <h2>Teori Brahmana</h2>
-    <p>Teori ini menyatakan bahwa agama Hindu dibawa oleh kaum Brahmana (pendeta Hindu) yang diundang oleh penguasa lokal untuk melakukan upacara keagamaan. Teori ini menekankan otoritas spiritual kaum Brahmana dalam menyebarkan ajaran Hindu.</p>
-    
-    <h2>Teori Ksatria</h2>
-    <p>Teori ini menjelaskan bahwa para bangsawan atau prajurit India yang melarikan diri dari konflik politik di India datang ke Nusantara dan membawa serta budaya serta agama Hindu.</p>
-    
-    <h2>Teori Waisya</h2>
-    <p>Teori ini menyebutkan bahwa para pedagang India yang melakukan kontak dagang dengan masyarakat Nusantara juga menyebarkan ajaran Hindu-Buddha secara tidak langsung melalui interaksi budaya.</p>
-    
-    <h2>Teori Arus Balik</h2>
-    <p>Teori ini mengemukakan bahwa penduduk Nusantara sendiri yang pergi belajar ke India, lalu kembali dan menyebarkan ajaran Hindu-Buddha di tanah air. Bukti dari teori ini antara lain adalah catatan I-Tsing tentang pelajar dari Sriwijaya yang belajar di Nalanda, India.</p>
-    
-    <h1>Perbandingan Teori Masuknya Agama Hindu ke Indonesia</h1>
-    <table>
-        <tr>
-            <th>Teori</th>
-            <th>Pelaku Utama</th>
-            <th>Cara Penyebaran</th>
-            <th>Ciri Khas</th>
-        </tr>
-        <tr>
-            <td>Brahmana</td>
-            <td>Kaum Brahmana</td>
-            <td>Diundang oleh raja lokal untuk upacara</td>
-            <td>Menekankan otoritas keagamaan dan kemampuan membaca kitab suci Weda</td>
-        </tr>
-        <tr>
-            <td>Ksatria</td>
-            <td>Bangsawan/Prajurit</td>
-            <td>Melarikan diri dari konflik di India</td>
-            <td>Menekankan peran politik dan militer dalam penyebaran budaya</td>
-        </tr>
-        <tr>
-            <td>Waisya</td>
-            <td>Pedagang</td>
-            <td>Melalui aktivitas perdagangan</td>
-            <td>Menekankan peran ekonomi dan hubungan dagang</td>
-        </tr>
-        <tr>
-            <td>Arus Balik</td>
-            <td>Pelajar Nusantara</td>
-            <td>Belajar ke India lalu kembali ke Indonesia</td>
-            <td>Menekankan inisiatif lokal dalam menyerap dan menyebarkan budaya India</td>
-        </tr>
-    </table>
-    
-    <h1>Peninggalan Sejarah Bercorak Hindu-Buddha di Indonesia</h1>
-    <h2>Candi Borobudur</h2>
-    <p>Letak: Magelang, Jawa Tengah<br>Corak: Buddha<br>Keterangan: Dibangun pada abad ke-8 oleh Dinasti Syailendra. Candi ini memiliki struktur stupa bertingkat dan relief yang menggambarkan ajaran Buddha Mahayana.</p>
-    
-    <h2>Candi Prambanan</h2>
-    <p>Letak: Yogyakarta<br>Corak: Hindu<br>Keterangan: Dibangun pada abad ke-9 oleh Rakai Pikatan dari Kerajaan Mataram Kuno. Candi ini didedikasikan untuk Trimurti: Brahma, Wisnu, dan Siwa.</p>
-    
-    <h1>Pengaruh Kebudayaan India terhadap Sistem Pemerintahan di Indonesia</h1>
-    <p>Kebudayaan India memengaruhi sistem pemerintahan kerajaan-kerajaan awal di Indonesia melalui konsep devaraja (raja sebagai titisan dewa), sistem kasta, dan penggunaan bahasa Sanskerta serta huruf Pallawa dalam prasasti. Contohnya, Kerajaan Kutai menggunakan nama-nama raja bergaya India seperti Mulawarman, dan Kerajaan Mataram Kuno membangun candi sebagai simbol kekuasaan spiritual.</p>
-    
-    <h1>Peran Pedagang dalam Penyebaran Agama Buddha di Nusantara</h1>
-    <p>Pedagang dari India, Tiongkok, dan Asia Tenggara berperan penting dalam penyebaran agama Buddha. Mereka membawa ajaran Buddha bersama barang dagangan ke pelabuhan-pelabuhan di Nusantara. Pelabuhan seperti Sriwijaya menjadi pusat perdagangan sekaligus pusat pembelajaran agama Buddha, yang menarik biksu asing seperti I-Tsing.</p>
-    
-    <h1>Sinkretisme dalam Perkembangan Agama Hindu-Buddha di Indonesia</h1>
-    <p>Sinkretisme adalah perpaduan antara dua atau lebih sistem kepercayaan atau agama yang menghasilkan bentuk kepercayaan baru. Contohnya adalah agama Siwa-Buddha yang dianut di Kerajaan Majapahit, serta Candi Jawi yang mencerminkan unsur Hindu dan Buddha sekaligus.</p>
-    
-    <h1>Kerajaan Hindu-Buddha Tertua di Indonesia dan Peninggalannya</h1>
-    <h2>Kerajaan Kutai</h2>
-    <p>Letak: Kalimantan Timur<br>Masa: Abad ke-4 M<br>Peninggalan: Yupa (prasasti batu) yang menggunakan huruf Pallawa dan bahasa Sanskerta, menyebutkan Raja Mulawarman.</p>
-    
-    <h2>Kerajaan Tarumanegara</h2>
-    <p>Letak: Jawa Barat<br>Masa: Abad ke-5 M<br>Peninggalan: Prasasti Ciaruteun yang menyebutkan Raja Purnawarman dan menggunakan aksara Pallawa.</p>
-    
-    <h1>Awal Kedatangan Bangsa Eropa ke Indonesia</h1>
-    <p>Bangsa Portugis adalah bangsa Eropa pertama yang datang ke Indonesia pada tahun 1511 setelah menguasai Malaka, pada 1512 memasuki Maluku tepatnya di Ternate, Spanyol tiba di Tidore pada 1521. Berdasarkan perjanjian Tordesilas Portogis mendapatkan wilayah penjelajahan ke arah timur dan Spanyol ke arah Barat, namun perebutan wilayah di maluku menyebabkan terjadinya perjanjian baru tentang batas wilayah kekuasaan Portugis dan Spanyol perjanjian ini dikenal dengan Saragosa.Tujuan utama mereka adalah mencari rempah-rempah dan menyebarkan agama, semangat mereka didasari dengan semboyan 3G, Gold (emas), Gospel (agama) dan Glory (Kejayaan).</p>
-    
-    <h1>Dampak Kedatangan Portugis terhadap Masyarakat Indonesia</h1>
-    <h2>Bidang Perdagangan</h2>
-    <p>Portugis memonopoli perdagangan rempah-rempah, terutama di Maluku, dan mengubah sistem perdagangan lokal menjadi sistem monopoli.</p>
-    
-    <h2>Bidang Agama</h2>
-    <p>Mereka menyebarkan agama Katolik, terutama di wilayah Indonesia Timur seperti Flores, Timor, dan Maluku, yang masih memiliki komunitas Katolik hingga kini.</p>
-    
-    <h1>Kolonialisme dan Imperialisme serta Penerapannya di Indonesia</h1>
-    <p>Kolonialisme adalah penguasaan suatu wilayah oleh negara asing untuk mengeksploitasi sumber daya alam dan manusia. Contohnya, Belanda menjajah Indonesia dan memonopoli perdagangan rempah-rempah.<br>Imperialisme adalah politik memperluas kekuasaan suatu negara ke wilayah lain untuk kepentingan ekonomi, politik, dan militer. Contohnya, Inggris dan Belanda bersaing menguasai wilayah-wilayah di Asia Tenggara, termasuk Indonesia.</p>
-    <p>Perbedaan utama antara keduanya adalah bahwa kolonialisme lebih fokus pada penguasaan wilayah dan eksploitasi ekonomi, sedangkan imperialisme mencakup dominasi politik, ekonomi, dan budaya secara lebih luas.</p>
+    <header>
+        <h1>Sejarah Hindu-Buddha di Indonesia</h1>
+    </header>
+    <main>
+        <div class="card">
+            <h1>Masuknya Agama dan Kebudayaan Hindu-Buddha ke Indonesia</h1>
+            <p>Agama dan kebudayaan Hindu-Buddha masuk ke Indonesia secara bertahap melalui interaksi antara masyarakat Nusantara dan bangsa India sejak awal abad Masehi. Proses ini berlangsung secara damai melalui jalur perdagangan, perkawinan, pendidikan, dan budaya. Terdapat empat teori utama yang menjelaskan proses ini:</p>
+        </div>
+        
+        <div class="card">
+            <h2>Teori Brahmana</h2>
+            <p>Teori ini menyatakan bahwa agama Hindu dibawa oleh kaum Brahmana (pendeta Hindu) yang diundang oleh penguasa lokal untuk melakukan upacara keagamaan. Teori ini menekankan otoritas spiritual kaum Brahmana dalam menyebarkan ajaran Hindu.</p>
+        </div>
+        
+        <div class="card">
+            <h2>Teori Ksatria</h2>
+            <p>Teori ini menjelaskan bahwa para bangsawan atau prajurit India yang melarikan diri dari konflik politik di India datang ke Nusantara dan membawa serta budaya serta agama Hindu.</p>
+        </div>
+        
+        <div class="card">
+            <h2>Teori Waisya</h2>
+            <p>Teori ini menyebutkan bahwa para pedagang India yang melakukan kontak dagang dengan masyarakat Nusantara juga menyebarkan ajaran Hindu-Buddha secara tidak langsung melalui interaksi budaya.</p>
+        </div>
+        
+        <div class="card">
+            <h2>Teori Arus Balik</h2>
+            <p>Teori ini mengemukakan bahwa penduduk Nusantara sendiri yang pergi belajar ke India, lalu kembali dan menyebarkan ajaran Hindu-Buddha di tanah air. Bukti dari teori ini antara lain adalah catatan I-Tsing tentang pelajar dari Sriwijaya yang belajar di Nalanda, India.</p>
+        </div>
+        
+        <div class="card">
+            <h1>Perbandingan Teori Masuknya Agama Hindu ke Indonesia</h1>
+            <div class="table-container">
+                <table class="stacked-table">
+                    <thead>
+                        <tr>
+                            <th>Teori</th>
+                            <th>Pelaku Utama</th>
+                            <th>Cara Penyebaran</th>
+                            <th>Ciri Khas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Teori">Brahmana</td>
+                            <td data-label="Pelaku Utama">Kaum Brahmana</td>
+                            <td data-label="Cara Penyebaran">Diundang oleh raja lokal untuk upacara</td>
+                            <td data-label="Ciri Khas">Menekankan otoritas keagamaan dan kemampuan membaca kitab suci Weda</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Teori">Ksatria</td>
+                            <td data-label="Pelaku Utama">Bangsawan/Prajurit</td>
+                            <td data-label="Cara Penyebaran">Melarikan diri dari konflik di India</td>
+                            <td data-label="Ciri Khas">Menekankan peran politik dan militer dalam penyebaran budaya</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Teori">Waisya</td>
+                            <td data-label="Pelaku Utama">Pedagang</td>
+                            <td data-label="Cara Penyebaran">Melalui aktivitas perdagangan</td>
+                            <td data-label="Ciri Khas">Menekankan peran ekonomi dan hubungan dagang</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Teori">Arus Balik</td>
+                            <td data-label="Pelaku Utama">Pelajar Nusantara</td>
+                            <td data-label="Cara Penyebaran">Belajar ke India lalu kembali ke Indonesia</td>
+                            <td data-label="Ciri Khas">Menekankan inisiatif lokal dalam menyerap dan menyebarkan budaya India</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h1>Peninggalan Sejarah Bercorak Hindu-Buddha di Indonesia</h1>
+            <h2>Candi Borobudur</h2>
+            <p><strong>Letak:</strong> Magelang, Jawa Tengah<br>
+            <strong>Corak:</strong> Buddha<br>
+            <strong>Keterangan:</strong> Dibangun pada abad ke-8 oleh Dinasti Syailendra. Candi ini memiliki struktur stupa bertingkat dan relief yang menggambarkan ajaran Buddha Mahayana.</p>
+            
+            <h2>Candi Prambanan</h2>
+            <p><strong>Letak:</strong> Yogyakarta<br>
+            <strong>Corak:</strong> Hindu<br>
+            <strong>Keterangan:</strong> Dibangun pada abad ke-9 oleh Rakai Pikatan dari Kerajaan Mataram Kuno. Candi ini didedikasikan untuk Trimurti: Brahma, Wisnu, dan Siwa.</p>
+        </div>
+        
+        <div class="card">
+            <h1>Pengaruh Kebudayaan India terhadap Sistem Pemerintahan di Indonesia</h1>
+            <p>Kebudayaan India memengaruhi sistem pemerintahan kerajaan-kerajaan awal di Indonesia melalui konsep devaraja (raja sebagai titisan dewa), sistem kasta, dan penggunaan bahasa Sanskerta serta huruf Pallawa dalam prasasti. Contohnya, Kerajaan Kutai menggunakan nama-nama raja bergaya India seperti Mulawarman, dan Kerajaan Mataram Kuno membangun candi sebagai simbol kekuasaan spiritual.</p>
+        </div>
+        
+        <div class="card">
+            <h1>Peran Pedagang dalam Penyebaran Agama Buddha di Nusantara</h1>
+            <p>Pedagang dari India, Tiongkok, dan Asia Tenggara berperan penting dalam penyebaran agama Buddha. Mereka membawa ajaran Buddha bersama barang dagangan ke pelabuhan-pelabuhan di Nusantara. Pelabuhan seperti Sriwijaya menjadi pusat perdagangan sekaligus pusat pembelajaran agama Buddha, yang menarik biksu asing seperti I-Tsing.</p>
+        </div>
+        
+        <div class="card">
+            <h1>Sinkretisme dalam Perkembangan Agama Hindu-Buddha di Indonesia</h1>
+            <p>Sinkretisme adalah perpaduan antara dua atau lebih sistem kepercayaan atau agama yang menghasilkan bentuk kepercayaan baru. Contohnya adalah agama Siwa-Buddha yang dianut di Kerajaan Majapahit, serta Candi Jawi yang mencerminkan unsur Hindu dan Buddha sekaligus.</p>
+        </div>
+        
+        <div class="card">
+            <h1>Kerajaan Hindu-Buddha Tertua di Indonesia dan Peninggalannya</h1>
+            <h2>Kerajaan Kutai</h2>
+            <p><strong>Letak:</strong> Kalimantan Timur<br>
+            <strong>Masa:</strong> Abad ke-4 M<br>
+            <strong>Peninggalan:</strong> Yupa (prasasti batu) yang menggunakan huruf Pallawa dan bahasa Sanskerta, menyebutkan Raja Mulawarman.</p>
+            
+            <h2>Kerajaan Tarumanegara</h2>
+            <p><strong>Letak:</strong> Jawa Barat<br>
+            <strong>Masa:</strong> Abad ke-5 M<br>
+            <strong>Peninggalan:</strong> Prasasti Ciaruteun yang menyebutkan Raja Purnawarman dan menggunakan aksara Pallawa.</p>
+        </div>
+        
+        <div class="card">
+            <h1>Awal Kedatangan Bangsa Eropa ke Indonesia</h1>
+            <p>Bangsa Portugis adalah bangsa Eropa pertama yang datang ke Indonesia pada tahun 1511 setelah menguasai Malaka, pada 1512 memasuki Maluku tepatnya di Ternate, Spanyol tiba di Tidore pada 1521. Berdasarkan perjanjian Tordesilas Portogis mendapatkan wilayah penjelajahan ke arah timur dan Spanyol ke arah Barat, namun perebutan wilayah di maluku menyebabkan terjadinya perjanjian baru tentang batas wilayah kekuasaan Portugis dan Spanyol perjanjian ini dikenal dengan Saragosa.Tujuan utama mereka adalah mencari rempah-rempah dan menyebarkan agama, semangat mereka didasari dengan semboyan 3G, Gold (emas), Gospel (agama) dan Glory (Kejayaan).</p>
+        </div>
+        
+        <div class="card">
+            <h1>Dampak Kedatangan Portugis terhadap Masyarakat Indonesia</h1>
+            <h2>Bidang Perdagangan</h2>
+            <p>Portugis memonopoli perdagangan rempah-rempah, terutama di Maluku, dan mengubah sistem perdagangan lokal menjadi sistem monopoli.</p>
+            
+            <h2>Bidang Agama</h2>
+            <p>Mereka menyebarkan agama Katolik, terutama di wilayah Indonesia Timur seperti Flores, Timor, dan Maluku, yang masih memiliki komunitas Katolik hingga kini.</p>
+        </div>
+        
+        <div class="card">
+            <h1>Kolonialisme dan Imperialisme serta Penerapannya di Indonesia</h1>
+            <p><strong>Kolonialisme</strong> adalah penguasaan suatu wilayah oleh negara asing untuk mengeksploitasi sumber daya alam dan manusia. Contohnya, Belanda menjajah Indonesia dan memonopoli perdagangan rempah-rempah.</p>
+            <p><strong>Imperialisme</strong> adalah politik memperluas kekuasaan suatu negara ke wilayah lain untuk kepentingan ekonomi, politik, dan militer. Contohnya, Inggris dan Belanda bersaing menguasai wilayah-wilayah di Asia Tenggara, termasuk Indonesia.</p>
+            <p>Perbedaan utama antara keduanya adalah bahwa kolonialisme lebih fokus pada penguasaan wilayah dan eksploitasi ekonomi, sedangkan imperialisme mencakup dominasi politik, ekonomi, dan budaya secara lebih luas.</p>
+        </div>
+    </main>
+
+    <script>
+        // Script untuk menangani scroll pada tabel di mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableContainers = document.querySelectorAll('.table-container');
+            
+            function checkScroll() {
+                tableContainers.forEach(container => {
+                    const scrollLeft = container.scrollLeft;
+                    const scrollWidth = container.scrollWidth;
+                    const clientWidth = container.clientWidth;
+                    
+                    // Reset all classes first
+                    container.classList.remove('scroll-start', 'scroll-middle', 'scroll-end');
+                    
+                    if (scrollLeft === 0) {
+                        // At start
+                        container.classList.add('scroll-start');
+                    } else if (scrollLeft + clientWidth >= scrollWidth) {
+                        // At end
+                        container.classList.add('scroll-end');
+                    } else {
+                        // In middle
+                        container.classList.add('scroll-middle');
+                    }
+                });
+            }
+            
+            // Initial check
+            checkScroll();
+            
+            // Add event listeners
+            tableContainers.forEach(container => {
+                container.addEventListener('scroll', checkScroll);
+            });
+            
+            // Also check on resize
+            window.addEventListener('resize', checkScroll);
+        });
+    </script>
 </body>
 </html>
